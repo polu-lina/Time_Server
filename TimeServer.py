@@ -1,4 +1,4 @@
-import socket, time, sys
+import socket, time
 
 class TimeServer():
 
@@ -25,20 +25,19 @@ class TimeServer():
 
 if __name__ == '__main__':
     server = TimeServer()
-    mode = input("Выберите режим работы: client - клиентский; server - серверный\n")
+    print("Сервер запущен\n")
     try:
-        if mode == "client":
-            while True:
-                input("Нажмите enter для отправки запроса")
+        while True:
+            mode = input("Введите 'check' для отправки запроса или введите 'stop', чтобы остановить сервер\n")
+            if mode == "check":
                 current_time = str(time.time())
                 server.test_socket.sendto(bytes(current_time, encoding = "utf-8"), ('localhost', 123))
                 server.take()
                 server.check()
-        elif mode == "server":
-            while True:
-                server.take()
-        else:
-            print("Что-то пошло не так, попробуйте заново")
+            elif mode == "stop":
+                break
+            else:
+                print("Вы ввели неправильную команду")
     except Exception as e:
         print(e)
     finally:
